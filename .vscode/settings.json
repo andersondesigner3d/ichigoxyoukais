@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "qualquer nome.sln"
+    "dotnet.defaultSolution": "ichigoxyoukais.sln"
 }
