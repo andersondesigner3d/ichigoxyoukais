@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ocean
+    uniqueID: 3799327733
+    locked: 0
+  - name: moon and light
+    uniqueID: 307573493
+    locked: 0
+  - name: castle
+    uniqueID: 1992602835
+    locked: 0
+  - name: hero
+    uniqueID: 155620571
+    locked: 0
