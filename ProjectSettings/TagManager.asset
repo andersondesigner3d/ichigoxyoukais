@@ -47,9 +47,15 @@ TagManager:
   - name: moon and light
     uniqueID: 307573493
     locked: 0
+  - name: castle-black
+    uniqueID: 2251510001
+    locked: 0
   - name: castle
     uniqueID: 1992602835
     locked: 0
   - name: hero
     uniqueID: 155620571
+    locked: 0
+  - name: front_hero
+    uniqueID: 1440758869
     locked: 0
