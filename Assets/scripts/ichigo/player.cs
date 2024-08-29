@@ -22,10 +22,9 @@ public class player : MonoBehaviour
     public LayerMask groundLayer;
     public bool touchingGround;
     [Header ("Jump")]
-    public bool jumpping = false;
+    public bool jumpping = true;
     public float deadZone = 0.1f;
     public float jumpingPower;
-    public bool velocidadeY;
     [Header ("Atack1")]
     public bool attacking;
     [Header ("Visual FX")]
@@ -51,10 +50,6 @@ public class player : MonoBehaviour
 
         touchingGround = IsGrounded();
         touchingWall = canMove();
-        verificaVelocidadeY();
-        if(touchingGround){
-            jumpping = false;
-        }
 
         //flip
         if (!isFacingRight && horizontalMoviment > deadZone){
@@ -74,22 +69,15 @@ public class player : MonoBehaviour
 
         fixAnimationBugs();
         
-        
-    }
-
-    private void fixAnimationBugs(){
-        //fiz animations bugs
-        if(touchingGround){
-            anim.SetBool("pulando-subindo",false);
-            anim.SetBool("pulando-caindo",false);
-        } else {
-            anim.SetBool("parado",false);
-            anim.SetBool("correndo",false);
-        }
     }
 
     private void FixedUpdate() {
-        //animations control
+
+        animationControll();       
+        
+    }
+
+    private void animationControll(){
         if(!attacking){
             if(touchingGround){            
                 if(horizontalMoviment == 0 || touchingWall){
@@ -125,10 +113,17 @@ public class player : MonoBehaviour
                 }
             }
         }
+    }
 
-        //verify dust on falling
-        dustInGround();
-        
+    private void fixAnimationBugs(){
+        //fiz animations bugs
+        if(touchingGround){
+            anim.SetBool("pulando-subindo",false);
+            anim.SetBool("pulando-caindo",false);
+        } else {
+            anim.SetBool("parado",false);
+            anim.SetBool("correndo",false);
+        }
     }
 
     public void Move(InputAction.CallbackContext context){        
@@ -153,12 +148,12 @@ public class player : MonoBehaviour
 
         if(context.performed && IsGrounded()){
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            playSoundJump(0);
-            if(canDust && !jumpping){
-                Instantiate(dust_jump_fx, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-                canDust = false;
+            playSoundJump();
+            if(!jumpping){
                 jumpping = true;
-                StartCoroutine(nowCanDust());
+            }
+            if(canDust){
+                dustInGround();
             }
         }
 
@@ -168,19 +163,13 @@ public class player : MonoBehaviour
 
         anim.SetBool("parado",false);
         anim.SetBool("pulando-subindo",true);
-
-        
-        
         
     }
 
-    private void dustInGround(){
-        if(rb.velocity.y < -0.5f && canDust && !jumpping && touchingGround){
-            playSoundLanding(1);
-            Instantiate(dust_jump_fx, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-            canDust = false;
-            StartCoroutine(nowCanDust());
-        }
+    public void dustInGround(){
+        Instantiate(dust_jump_fx, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
+        canDust = false;
+        StartCoroutine(nowCanDust());
     }
 
     IEnumerator nowCanDust(){
@@ -236,7 +225,7 @@ public class player : MonoBehaviour
         var temporary_attack1_fx = Instantiate(attack1_fx, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
         temporary_attack1_fx.transform.parent = gameObject.transform;
 
-        // Ajusta a direção do efeito de acordo com a direção do player
+        // adjusts the direction of the effect according to the player's direction
         Vector3 fxScale = temporary_attack1_fx.transform.localScale;
         fxScale.x *= isFacingRight ? 1f : -1f;
         temporary_attack1_fx.transform.localScale = fxScale;
@@ -248,45 +237,30 @@ public class player : MonoBehaviour
         anim.ResetTrigger("ataque1");
         anim.SetBool("parado",true);
         attacking = false;
-        print(attacking);
     }
-
-    void verificaVelocidadeY(){
-        if(rb.velocity.y != 0){
-            velocidadeY = true;
-        } else {
-            velocidadeY = false;
-        }
-    }
-
-    // private void OnTriggerEnter2D(Collider2D other) {
-    //     if(other.gameObject.CompareTag("ground")){
-
-    //     }
-    // }
 
     //================== SOUNDs =====================
-    public void playSoundJump(int position){
+    public void playSoundJump(){
         this.audioSource.enabled = true;
-        this.audioSource.clip = audioClip[position];
+        this.audioSource.clip = audioClip[0];
         this.audioSource.PlayOneShot(this.audioSource.clip);
     }
 
-    public void playSoundLanding(int position){
+    public void playSoundLanding(){
         this.audioSource.enabled = true;
-        this.audioSource.clip = audioClip[position];
+        this.audioSource.clip = audioClip[1];
         this.audioSource.PlayOneShot(this.audioSource.clip);
     }
 
-    public void playSoundSwordAttack1(int position){
+    public void playSoundSwordAttack1(){
         this.audioSource.enabled = true;
-        this.audioSource.clip = audioClip[position];
+        this.audioSource.clip = audioClip[2];
         this.audioSource.PlayOneShot(this.audioSource.clip);
     }
 
-    public void playSoundIchigoVoice1(int position){
+    public void playSoundIchigoVoice1(){
         this.audioSource.enabled = true;
-        this.audioSource.clip = audioClip[position];
+        this.audioSource.clip = audioClip[3];
         this.audioSource.PlayOneShot(this.audioSource.clip);
     }
 
