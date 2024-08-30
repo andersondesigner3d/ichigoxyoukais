@@ -44693,7 +44693,6 @@ MonoBehaviour:
   jumpping: 1
   deadZone: 0.1
   jumpingPower: 4
-  velocidadeY: 0
   attacking: 0
   canDust: 1
   attack1_fx: {fileID: 3032297724599443950, guid: a85029b989b446448b8e719cd8c0da54, type: 3}
