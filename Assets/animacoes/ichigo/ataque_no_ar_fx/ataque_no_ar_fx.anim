@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ataque_no_ar
+  m_Name: ataque_no_ar_fx
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,17 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: 1c11d3f224d378043a9217f30362ca97, type: 3}
+      value: {fileID: 21300000, guid: c19e0b31657b1544b9760fc7e87813f9, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: 24decac37bdc0bf4f84389a4a705b89f, type: 3}
+      value: {fileID: 21300000, guid: fb15b9f617c09e141bdf80623e448349, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 4139a8d4c1be2c74592485aee6177e6f, type: 3}
+      value: {fileID: 21300000, guid: e4c6023d7436fa240b33548227119040, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: 4e624c5dbab3c9d48a8aa535a179dff5, type: 3}
-    - time: 0.33333334
-      value: {fileID: 21300000, guid: 33966b258dd46c342a860d8af27ae4c1, type: 3}
-    - time: 0.41666666
-      value: {fileID: 21300000, guid: 33966b258dd46c342a860d8af27ae4c1, type: 3}
+      value: {fileID: 21300000, guid: e4c6023d7436fa240b33548227119040, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -54,18 +50,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: 1c11d3f224d378043a9217f30362ca97, type: 3}
-    - {fileID: 21300000, guid: 24decac37bdc0bf4f84389a4a705b89f, type: 3}
-    - {fileID: 21300000, guid: 4139a8d4c1be2c74592485aee6177e6f, type: 3}
-    - {fileID: 21300000, guid: 4e624c5dbab3c9d48a8aa535a179dff5, type: 3}
-    - {fileID: 21300000, guid: 33966b258dd46c342a860d8af27ae4c1, type: 3}
-    - {fileID: 21300000, guid: 33966b258dd46c342a860d8af27ae4c1, type: 3}
+    - {fileID: 21300000, guid: c19e0b31657b1544b9760fc7e87813f9, type: 3}
+    - {fileID: 21300000, guid: fb15b9f617c09e141bdf80623e448349, type: 3}
+    - {fileID: 21300000, guid: e4c6023d7436fa240b33548227119040, type: 3}
+    - {fileID: 21300000, guid: e4c6023d7436fa240b33548227119040, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.5
+    m_StopTime: 0.33333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -85,22 +79,8 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
-    functionName: playSoundIchigoVoice1
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.083333336
-    functionName: createAttack_air_fx
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.41666666
-    functionName: fimAtaqueAr
+  - time: 0.25
+    functionName: destroyThisGameObject
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

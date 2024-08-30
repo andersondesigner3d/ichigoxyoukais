@@ -25,11 +25,13 @@ public class player : MonoBehaviour
     public bool jumpping = true;
     public float deadZone = 0.1f;
     public float jumpingPower;
-    [Header ("Atack1")]
+    [Header ("Atacks")]
     public bool attacking;
+    public bool attacking_air;
     [Header ("Visual FX")]
     public bool canDust = true;
     public GameObject attack1_fx;
+    public GameObject attack_air_fx;
     public GameObject dust_jump_fx;
     [Header ("Audio")]
     public AudioSource audioSource;
@@ -58,7 +60,7 @@ public class player : MonoBehaviour
             Flip();
         }        
         
-        //moviment
+        //movement
         if(attacking){
             rb.velocity = new Vector2(0, rb.velocity.y);
         } else {
@@ -120,9 +122,13 @@ public class player : MonoBehaviour
         if(touchingGround){
             anim.SetBool("pulando-subindo",false);
             anim.SetBool("pulando-caindo",false);
+            anim.ResetTrigger("ataque_ar");
+            attacking_air = false;
         } else {
             anim.SetBool("parado",false);
             anim.SetBool("correndo",false);
+            anim.ResetTrigger("ataque1");
+            attacking = false;
         }
     }
 
@@ -209,16 +215,30 @@ public class player : MonoBehaviour
     }
 
     public void Sword(InputAction.CallbackContext context){
-        if(attacking || !touchingGround)
+        if(attacking || attacking_air)
             return;
-        attacking = true;
-        anim.SetTrigger("ataque1");        
-        anim.SetBool("parado",false);
-        anim.SetBool("correndo",false);
-        anim.SetBool("pulando-subindo",false);
-        anim.SetBool("pulando-caindo",false);
-        anim.SetBool("sofrendo-dano",false);
-        anim.SetBool("morto",false);        
+        if(touchingGround){
+            attacking = true;
+            attacking_air = false;
+            anim.SetTrigger("ataque1");
+            anim.SetBool("parado",false);
+            anim.SetBool("correndo",false);
+            anim.SetBool("pulando-subindo",false);
+            anim.SetBool("pulando-caindo",false);
+            anim.SetBool("sofrendo-dano",false);
+            anim.SetBool("morto",false);
+        } else {
+            attacking_air = true;
+            attacking = false;
+            anim.SetTrigger("ataque_ar");
+            anim.SetBool("parado",false);
+            anim.SetBool("correndo",false);
+            anim.SetBool("pulando-subindo",false);
+            anim.SetBool("pulando-caindo",false);
+            anim.SetBool("sofrendo-dano",false);
+            anim.SetBool("morto",false);
+        }
+              
     }
 
     public void createAttack1_fx(){
@@ -233,10 +253,28 @@ public class player : MonoBehaviour
         temporary_attack1_fx.transform.parent = null;
     }
 
+    public void createAttack_air_fx(){
+        var temporary_attack_air_fx = Instantiate(attack_air_fx, new Vector3(transform.position.x-0.021f, transform.position.y+0.326f, 0), Quaternion.identity);
+        temporary_attack_air_fx.transform.parent = gameObject.transform;
+
+        // adjusts the direction of the effect according to the player's direction
+        Vector3 fxScale = temporary_attack_air_fx.transform.localScale;
+        fxScale.x *= isFacingRight ? 1f : -1f;
+        temporary_attack_air_fx.transform.localScale = fxScale;
+
+        //temporary_attack_air_fx.transform.parent = null;
+    }
+
     public void fimAtaque(){
         anim.ResetTrigger("ataque1");
         anim.SetBool("parado",true);
         attacking = false;
+    }
+
+    public void fimAtaqueAr(){
+        anim.ResetTrigger("ataque_ar");
+        anim.SetBool("pulando-caindo",true);
+        attacking_air = false;
     }
 
     //================== SOUNDs =====================

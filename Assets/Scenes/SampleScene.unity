@@ -44692,10 +44692,12 @@ MonoBehaviour:
   touchingGround: 0
   jumpping: 1
   deadZone: 0.1
-  jumpingPower: 4
+  jumpingPower: 8
   attacking: 0
+  attacking_air: 0
   canDust: 1
   attack1_fx: {fileID: 3032297724599443950, guid: a85029b989b446448b8e719cd8c0da54, type: 3}
+  attack_air_fx: {fileID: 6388702666035180268, guid: 421c5f71010f22346802d8e3598765b1, type: 3}
   dust_jump_fx: {fileID: 8989361609670280078, guid: dc63349f6498fc944a9a5d6f99f7b4f2, type: 3}
   audioSource: {fileID: 1899868946}
   audioClip:
