@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: attack1_effect_glow
+  m_Name: attaque_ar__glow
   m_Shader: {fileID: -6465566751694194690, guid: 53346b894019f96458b90f9d06baba15, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _EmissionMask:
-        m_Texture: {fileID: 2800000, guid: 22f1a5d8c004ea8499e83d40c7d8ded0, type: 3}
+        m_Texture: {fileID: 2800000, guid: cebaa7dc92d0474459147e692180608d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:

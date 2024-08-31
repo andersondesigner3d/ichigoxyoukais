@@ -8,6 +8,7 @@ public class player : MonoBehaviour
     [Header ("Principal")]
     public Animator anim;
     public Transform ichigoTransform;
+    private SpriteRenderer spriteRenderer;
     [Header ("Moviment")]
     public Rigidbody2D rb;
     public float moveSpeed = 5f;
@@ -36,12 +37,18 @@ public class player : MonoBehaviour
     [Header ("Audio")]
     public AudioSource audioSource;
     public AudioClip[] audioClip;
+    [Header ("Meteriais and Glows")]
+    public Material originalMaterial;
+    public Material swordGlowMaterial;
+    public Material airSwordGlowMaterial;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         ichigoTransform = GetComponent<Transform>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originalMaterial = spriteRenderer.material;
     }
     
     void Update()
@@ -70,12 +77,13 @@ public class player : MonoBehaviour
         }
 
         fixAnimationBugs();
+        FixMaterialBugs();
         
     }
 
     private void FixedUpdate() {
 
-        animationControll();       
+        animationControll();
         
     }
 
@@ -114,6 +122,12 @@ public class player : MonoBehaviour
                     anim.SetBool("morto",false);
                 }
             }
+        }
+    }
+
+    private void FixMaterialBugs(){
+        if(!attacking && !attacking_air){
+            spriteRenderer.material = originalMaterial;
         }
     }
 
@@ -219,6 +233,7 @@ public class player : MonoBehaviour
             return;
         if(touchingGround){
             attacking = true;
+            spriteRenderer.material = swordGlowMaterial;
             attacking_air = false;
             anim.SetTrigger("ataque1");
             anim.SetBool("parado",false);
@@ -229,6 +244,7 @@ public class player : MonoBehaviour
             anim.SetBool("morto",false);
         } else {
             attacking_air = true;
+            spriteRenderer.material = airSwordGlowMaterial;
             attacking = false;
             anim.SetTrigger("ataque_ar");
             anim.SetBool("parado",false);
@@ -265,13 +281,15 @@ public class player : MonoBehaviour
         //temporary_attack_air_fx.transform.parent = null;
     }
 
-    public void fimAtaque(){
+    public void fimDoAtaque(){
+        spriteRenderer.material = originalMaterial;
         anim.ResetTrigger("ataque1");
         anim.SetBool("parado",true);
         attacking = false;
     }
 
     public void fimAtaqueAr(){
+        spriteRenderer.material = originalMaterial;
         anim.ResetTrigger("ataque_ar");
         anim.SetBool("pulando-caindo",true);
         attacking_air = false;

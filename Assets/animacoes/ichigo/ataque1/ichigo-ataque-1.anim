@@ -21,17 +21,17 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 21300000, guid: c7019e510ad7f2c43a8a54f12a3e7c25, type: 3}
+      value: {fileID: 1190503989, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300000, guid: cab2b48d978e5914bb6a726408b4b018, type: 3}
+      value: {fileID: 451068189, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
     - time: 0.16666667
-      value: {fileID: 21300000, guid: 8b5d879e4c2f7254eac8c4c634855911, type: 3}
+      value: {fileID: 377149561, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
     - time: 0.25
-      value: {fileID: 21300000, guid: 931bcb24a628e9546becede867bca081, type: 3}
+      value: {fileID: 1999691488, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
     - time: 0.33333334
-      value: {fileID: 21300000, guid: ca43dafa5d00ff248a387e0cf1e0257e, type: 3}
+      value: {fileID: 912569979, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
     - time: 0.41666666
-      value: {fileID: 21300000, guid: a1b70f05f02991845a92f1af389222d8, type: 3}
+      value: {fileID: -1669684439, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -54,12 +54,12 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 21300000, guid: c7019e510ad7f2c43a8a54f12a3e7c25, type: 3}
-    - {fileID: 21300000, guid: cab2b48d978e5914bb6a726408b4b018, type: 3}
-    - {fileID: 21300000, guid: 8b5d879e4c2f7254eac8c4c634855911, type: 3}
-    - {fileID: 21300000, guid: 931bcb24a628e9546becede867bca081, type: 3}
-    - {fileID: 21300000, guid: ca43dafa5d00ff248a387e0cf1e0257e, type: 3}
-    - {fileID: 21300000, guid: a1b70f05f02991845a92f1af389222d8, type: 3}
+    - {fileID: 1190503989, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
+    - {fileID: 451068189, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
+    - {fileID: 377149561, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
+    - {fileID: 1999691488, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
+    - {fileID: 912569979, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
+    - {fileID: -1669684439, guid: 925c236675c435e4bb97ddb9ae4fa249, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -86,28 +86,21 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.16666667
-    functionName: playSoundIchigoVoice1
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 3
-    messageOptions: 0
-  - time: 0.25
-    functionName: createAttack1_fx
+    functionName: playSoundSwordAttack1
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.25
-    functionName: playSoundSwordAttack1
+    functionName: playSoundIchigoVoice1
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
-    intParameter: 2
+    intParameter: 0
     messageOptions: 0
-  - time: 0.33333334
-    functionName: fimAtaque
+  - time: 0.41666666
+    functionName: fimDoAtaque
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
