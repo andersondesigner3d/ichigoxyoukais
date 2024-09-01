@@ -33,6 +33,7 @@ public class player : MonoBehaviour
     public bool canDust = true;
     public GameObject dust_jump_fx;
     public GameObject dust_sword_fx;
+    public GameObject dust_wind_fx;
     [Header ("Audio")]
     public AudioSource audioSource;
     public AudioClip[] audioClip;
@@ -307,7 +308,13 @@ public class player : MonoBehaviour
 
     private void CriaDustFx(){
         GameObject dust = Instantiate(dust_sword_fx, transform.position, Quaternion.identity);
+        Vector3 dustScale = dust.transform.localScale;
+        dustScale.x = isFacingRight ? Mathf.Abs(dustScale.x) : -Mathf.Abs(dustScale.x);
+        dust.transform.localScale = dustScale;
+    }
 
+    private void CriaDashWindFx(){
+        GameObject dust = Instantiate(dust_wind_fx, transform.position, Quaternion.identity);
         Vector3 dustScale = dust.transform.localScale;
         dustScale.x = isFacingRight ? Mathf.Abs(dustScale.x) : -Mathf.Abs(dustScale.x);
         dust.transform.localScale = dustScale;
@@ -339,7 +346,7 @@ public class player : MonoBehaviour
                 if(touchingGround){
                     CriaDustFx();
                 } else {
-
+                    CriaDashWindFx();
                 }
                 
             }

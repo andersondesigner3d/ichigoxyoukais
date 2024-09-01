@@ -44622,6 +44622,7 @@ MonoBehaviour:
   canDust: 1
   dust_jump_fx: {fileID: 8989361609670280078, guid: dc63349f6498fc944a9a5d6f99f7b4f2, type: 3}
   dust_sword_fx: {fileID: 2592234961986521783, guid: 7311fb741bb528349a81b88181c4c7ee, type: 3}
+  dust_wind_fx: {fileID: 2106761651468464191, guid: 19eb8293b559b6f48a97f3b26d293959, type: 3}
   audioSource: {fileID: 1899868946}
   audioClip:
   - {fileID: 8300000, guid: 672910cbe0958b648b651f833ee9d88d, type: 3}
