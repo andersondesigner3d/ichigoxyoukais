@@ -8,8 +8,8 @@ public class player : MonoBehaviour
     public Animator anim;
     public Transform ichigoTransform;
     private SpriteRenderer spriteRenderer;
-    [Header ("Moviment")]
     public Rigidbody2D rb;
+    [Header ("Moviment")]
     public float moveSpeed = 5f;
     float horizontalMoviment;
     float verticalMoviment;
