@@ -20,13 +20,22 @@
                     "id": "e958f0d5-1dff-4701-a458-1a33eab76e7c",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Press",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 },
                 {
                     "name": "Jump",
                     "type": "Button",
                     "id": "4540bc47-5da0-41c3-ac77-9bf624cfe871",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Dash",
+                    "type": "Button",
+                    "id": "703b1034-16d8-4123-800b-f5bc77e62529",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -113,6 +122,17 @@
                 },
                 {
                     "name": "",
+                    "id": "822a5744-7b21-41cd-ae52-4844caa7b244",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Sword",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "c86fd2bf-4dbd-438d-a5d6-c72ce056018d",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -130,6 +150,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61d9f882-3b7d-4d24-b000-7c5400fc9ccb",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Dash",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e035de20-d9d8-4bdb-b8f1-59f209d2d737",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

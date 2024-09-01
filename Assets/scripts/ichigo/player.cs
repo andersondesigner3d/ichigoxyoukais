@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -29,11 +28,11 @@ public class player : MonoBehaviour
     [Header ("Atacks")]
     public bool attacking;
     public bool attacking_air;
+    public bool canAtack;
     [Header ("Visual FX")]
     public bool canDust = true;
-    public GameObject attack1_fx;
-    public GameObject attack_air_fx;
     public GameObject dust_jump_fx;
+    public GameObject dust_sword_fx;
     [Header ("Audio")]
     public AudioSource audioSource;
     public AudioClip[] audioClip;
@@ -41,6 +40,8 @@ public class player : MonoBehaviour
     public Material originalMaterial;
     public Material swordGlowMaterial;
     public Material airSwordGlowMaterial;
+    [Header ("Dash")]
+    public bool dashing;
 
     void Start()
     {
@@ -68,27 +69,35 @@ public class player : MonoBehaviour
         }        
         
         //movement
-        if(attacking){
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        } else {
-            if(!touchingWall && !attacking){
-                rb.velocity = new Vector2(horizontalMoviment * moveSpeed, rb.velocity.y);
+        if(!dashing){
+            if(attacking){
+                rb.velocity = new Vector2(0, rb.velocity.y);
+            } else {
+                if(!touchingWall && !attacking){
+                    rb.velocity = new Vector2(horizontalMoviment * moveSpeed, rb.velocity.y);
+                }
             }
         }
 
+        if(dashing){
+            rb.gravityScale = 0f;
+        }
+
+
         fixAnimationBugs();
         FixMaterialBugs();
-        
+        FixAttackBugs();
+        animationControll();
     }
 
     private void FixedUpdate() {
 
-        animationControll();
+        
         
     }
 
     private void animationControll(){
-        if(!attacking){
+        if(!attacking && !dashing && !attacking_air){
             if(touchingGround){            
                 if(horizontalMoviment == 0 || touchingWall){
                     anim.SetBool("parado",true);
@@ -125,6 +134,20 @@ public class player : MonoBehaviour
         }
     }
 
+    private void FixAttackBugs(){
+        if(touchingGround){
+            attacking_air = false;
+        } else {
+            attacking = false;
+        }
+        if(attacking){
+            attacking_air = false;
+        }
+        if(attacking_air){
+            attacking = false;
+        }
+    }
+
     private void FixMaterialBugs(){
         if(!attacking && !attacking_air){
             spriteRenderer.material = originalMaterial;
@@ -133,17 +156,20 @@ public class player : MonoBehaviour
 
     private void fixAnimationBugs(){
         //fiz animations bugs
-        if(touchingGround){
-            anim.SetBool("pulando-subindo",false);
-            anim.SetBool("pulando-caindo",false);
-            anim.ResetTrigger("ataque_ar");
-            attacking_air = false;
-        } else {
-            anim.SetBool("parado",false);
-            anim.SetBool("correndo",false);
-            anim.ResetTrigger("ataque1");
-            attacking = false;
+        if(!attacking && !attacking_air && !dashing){
+            if(touchingGround){
+                anim.SetBool("pulando-subindo",false);
+                anim.SetBool("pulando-caindo",false);
+                anim.ResetTrigger("ataque_ar");
+                attacking_air = false;
+            } else {
+                anim.SetBool("parado",false);
+                anim.SetBool("correndo",false);
+                anim.ResetTrigger("ataque1");
+                attacking = false;
+            }
         }
+        
     }
 
     public void Move(InputAction.CallbackContext context){        
@@ -163,7 +189,7 @@ public class player : MonoBehaviour
     }
 
     public void Jump(InputAction.CallbackContext context){
-        if(attacking)
+        if(dashing || attacking || attacking_air)
             return;
 
         if(context.performed && IsGrounded()){
@@ -220,7 +246,7 @@ public class player : MonoBehaviour
     }
 
     private void Flip(){
-        if(attacking)
+        if(attacking || dashing || attacking_air)
             return;
         isFacingRight = !isFacingRight;
         Vector3 localScale = transform.localScale;
@@ -229,56 +255,40 @@ public class player : MonoBehaviour
     }
 
     public void Sword(InputAction.CallbackContext context){
-        if(attacking || attacking_air)
-            return;
-        if(touchingGround){
-            attacking = true;
-            spriteRenderer.material = swordGlowMaterial;
-            attacking_air = false;
-            anim.SetTrigger("ataque1");
-            anim.SetBool("parado",false);
-            anim.SetBool("correndo",false);
-            anim.SetBool("pulando-subindo",false);
-            anim.SetBool("pulando-caindo",false);
-            anim.SetBool("sofrendo-dano",false);
-            anim.SetBool("morto",false);
-        } else {
-            attacking_air = true;
-            spriteRenderer.material = airSwordGlowMaterial;
-            attacking = false;
-            anim.SetTrigger("ataque_ar");
-            anim.SetBool("parado",false);
-            anim.SetBool("correndo",false);
-            anim.SetBool("pulando-subindo",false);
-            anim.SetBool("pulando-caindo",false);
-            anim.SetBool("sofrendo-dano",false);
-            anim.SetBool("morto",false);
-        }
-              
+        if (context.phase == InputActionPhase.Started){
+            if(!attacking && !attacking_air && !dashing){
+                if(touchingGround && canAtack){
+                attacking = true;
+                attacking_air = false;
+                spriteRenderer.material = swordGlowMaterial;
+                anim.SetTrigger("ataque1");
+                anim.SetBool("parado",false);
+                anim.SetBool("correndo",false);
+                anim.SetBool("pulando-subindo",false);
+                anim.SetBool("pulando-caindo",false);
+                anim.SetBool("sofrendo-dano",false);
+                anim.SetBool("morto",false);
+                } else {
+                    attacking_air = true;
+                    attacking = false;
+                    canAtack = false;
+                    StartCoroutine(TimeToNewAttack());
+                    spriteRenderer.material = airSwordGlowMaterial;
+                    anim.SetTrigger("ataque_ar");
+                    anim.SetBool("parado",false);
+                    anim.SetBool("correndo",false);
+                    anim.SetBool("pulando-subindo",false);
+                    anim.SetBool("pulando-caindo",false);
+                    anim.SetBool("sofrendo-dano",false);
+                    anim.SetBool("morto",false);
+                }
+            }
+        }                       
     }
 
-    public void createAttack1_fx(){
-        var temporary_attack1_fx = Instantiate(attack1_fx, new Vector3(transform.position.x, transform.position.y, 0), Quaternion.identity);
-        temporary_attack1_fx.transform.parent = gameObject.transform;
-
-        // adjusts the direction of the effect according to the player's direction
-        Vector3 fxScale = temporary_attack1_fx.transform.localScale;
-        fxScale.x *= isFacingRight ? 1f : -1f;
-        temporary_attack1_fx.transform.localScale = fxScale;
-
-        temporary_attack1_fx.transform.parent = null;
-    }
-
-    public void createAttack_air_fx(){
-        var temporary_attack_air_fx = Instantiate(attack_air_fx, new Vector3(transform.position.x-0.021f, transform.position.y+0.326f, 0), Quaternion.identity);
-        temporary_attack_air_fx.transform.parent = gameObject.transform;
-
-        // adjusts the direction of the effect according to the player's direction
-        Vector3 fxScale = temporary_attack_air_fx.transform.localScale;
-        fxScale.x *= isFacingRight ? 1f : -1f;
-        temporary_attack_air_fx.transform.localScale = fxScale;
-
-        //temporary_attack_air_fx.transform.parent = null;
+    IEnumerator TimeToNewAttack(){
+        yield return new WaitForSeconds(0.2f);        
+        canAtack = true;      
     }
 
     public void fimDoAtaque(){
@@ -294,6 +304,55 @@ public class player : MonoBehaviour
         anim.SetBool("pulando-caindo",true);
         attacking_air = false;
     }
+
+    private void CriaDustFx(){
+        GameObject dust = Instantiate(dust_sword_fx, transform.position, Quaternion.identity);
+
+        Vector3 dustScale = dust.transform.localScale;
+        dustScale.x = isFacingRight ? Mathf.Abs(dustScale.x) : -Mathf.Abs(dustScale.x);
+        dust.transform.localScale = dustScale;
+    }
+
+    public void Dash(InputAction.CallbackContext context){
+        if (context.phase == InputActionPhase.Started){
+            if(!dashing && !attacking && !attacking_air){
+                anim.SetTrigger("dash");
+                anim.ResetTrigger("ataque_ar");
+                anim.ResetTrigger("ataque1");
+                anim.SetBool("parado",false);
+                anim.SetBool("correndo",false);
+                anim.SetBool("pulando-subindo",false);
+                anim.SetBool("pulando-caindo",false);
+                anim.SetBool("sofrendo-dano",false);
+                anim.SetBool("morto",false);
+                dashing = true;
+                StartCoroutine(EndDash());
+                
+                float dashDirection = isFacingRight ? 1f : -1f;
+                float dashForce = 5f;
+                rb.velocity = new Vector2(dashForce * dashDirection, 0f);
+                playSoundDashWind();
+                int number = Random.Range(0, 2);
+                if(number==1){
+                    playSoundDashichigoVoice();
+                }
+                if(touchingGround){
+                    CriaDustFx();
+                } else {
+
+                }
+                
+            }
+        }
+    }
+
+    IEnumerator EndDash(){
+        yield return new WaitForSeconds(0.25f);        
+        dashing = false;
+        anim.ResetTrigger("dash");
+        rb.gravityScale = 1f;
+    }
+
 
     //================== SOUNDs =====================
     public void playSoundJump(){
@@ -317,6 +376,18 @@ public class player : MonoBehaviour
     public void playSoundIchigoVoice1(){
         this.audioSource.enabled = true;
         this.audioSource.clip = audioClip[3];
+        this.audioSource.PlayOneShot(this.audioSource.clip);
+    }
+
+    public void playSoundDashichigoVoice(){
+        this.audioSource.enabled = true;
+        this.audioSource.clip = audioClip[4];
+        this.audioSource.PlayOneShot(this.audioSource.clip);
+    }
+
+    public void playSoundDashWind(){
+        this.audioSource.enabled = true;
+        this.audioSource.clip = audioClip[5];
         this.audioSource.PlayOneShot(this.audioSource.clip);
     }
 

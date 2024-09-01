@@ -22915,7 +22915,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ae790e30c960d2409b113bcaa4754b3, type: 2}
+  - {fileID: 2100000, guid: 5dfebeeb476896f408b8c859c26f5738, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -44618,19 +44618,22 @@ MonoBehaviour:
   jumpingPower: 4
   attacking: 0
   attacking_air: 0
+  canAtack: 0
   canDust: 1
-  attack1_fx: {fileID: 3032297724599443950, guid: a85029b989b446448b8e719cd8c0da54, type: 3}
-  attack_air_fx: {fileID: 6388702666035180268, guid: 421c5f71010f22346802d8e3598765b1, type: 3}
   dust_jump_fx: {fileID: 8989361609670280078, guid: dc63349f6498fc944a9a5d6f99f7b4f2, type: 3}
+  dust_sword_fx: {fileID: 2592234961986521783, guid: 7311fb741bb528349a81b88181c4c7ee, type: 3}
   audioSource: {fileID: 1899868946}
   audioClip:
   - {fileID: 8300000, guid: 672910cbe0958b648b651f833ee9d88d, type: 3}
   - {fileID: 8300000, guid: 30259b92959e68849a5a7c5d372dbffd, type: 3}
   - {fileID: 8300000, guid: e245cdb8c4441b847b2687666b444438, type: 3}
   - {fileID: 8300000, guid: b4875139134262d48a7d6e2d9f52ec7b, type: 3}
+  - {fileID: 8300000, guid: 87b3658c2b3c66347826a9ea977897f8, type: 3}
+  - {fileID: 8300000, guid: ad698e3891e2cc54593c57afc9991847, type: 3}
   originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   swordGlowMaterial: {fileID: 2100000, guid: 0e62789320db13544b9e358de3c8daa8, type: 2}
   airSwordGlowMaterial: {fileID: 2100000, guid: 6f279ab43aee5214f896d45d07fbea5a, type: 2}
+  dashing: 0
 --- !u!114 &1899868945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44744,6 +44747,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 29faf451-6134-4ebf-9a17-744f7dbfa88b
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1899868944}
+        m_TargetAssemblyTypeName: player, Assembly-CSharp
+        m_MethodName: Dash
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 703b1034-16d8-4123-800b-f5bc77e62529
+    m_ActionName: Player/Dash[/XInputControllerWindows/buttonEast,/Keyboard/g]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -45031,7 +45050,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 21abb09208865304ba10b8f0d046644a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
