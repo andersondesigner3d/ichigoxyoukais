@@ -1,7 +1,8 @@
+using System.Collections;
 using UnityEngine;
 
-public class Enemie : MonoBehaviour
-{
+public class Enemie : MonoBehaviour {
+
     [Header ("Principal")]
     public Animator anim;
     public AudioSource audioSource;
@@ -9,14 +10,15 @@ public class Enemie : MonoBehaviour
     public Transform myTransform;
     public Rigidbody2D rb;
     public player ichigo;
+    public GameObject impactPoint;
     [Header ("Others")]
     public int lifeAmount;
     public GameObject ItemDroped;
     [Header ("Audio")]
     public AudioClip soundAttack;
     public AudioClip soundDeath;
-    // [Header ("FX")]
-    // public GameObject windFx;
+    [Header ("FX")]
+    public GameObject horizontalCutFx;
     
     
     void Start()
@@ -27,6 +29,7 @@ public class Enemie : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         ichigo = FindObjectOfType<player>();
         audioSource = GetComponent<AudioSource>();
+        impactPoint = transform.Find("impactPoint").gameObject;
         StartingGame();
     }
 
@@ -44,5 +47,24 @@ public class Enemie : MonoBehaviour
         this.audioSource.enabled = true;
         this.audioSource.clip = soundDeath;
         this.audioSource.PlayOneShot(this.audioSource.clip);
+    }
+
+    public void subtractLife(int valor){
+        lifeAmount -= valor;
+    }
+
+    public void verifyLifeAmout(){
+        if(lifeAmount < 0){
+            lifeAmount = 0;
+        }
+    }
+
+    public IEnumerator MicroPause(){
+        // Reduzir o tempo para criar o efeito de micropausa
+        Time.timeScale = 0.1f;
+        yield return new WaitForSecondsRealtime(0.1f); // Duração da micropausa em tempo real (ajuste conforme necessário)
+        
+        // Restaurar o tempo ao normal
+        Time.timeScale = 1f;
     }
 }

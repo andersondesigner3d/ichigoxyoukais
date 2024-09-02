@@ -9,6 +9,8 @@ public class player : MonoBehaviour
     public Transform ichigoTransform;
     private SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
+    [Header ("Sword Impact")]
+    public GameObject swordImpact;
     [Header ("Moviment")]
     public float moveSpeed = 5f;
     float horizontalMoviment;
@@ -22,7 +24,7 @@ public class player : MonoBehaviour
     public LayerMask groundLayer;
     public bool touchingGround;
     [Header ("Jump")]
-    public bool jumpping = true;
+    public bool jumpping;
     public float deadZone = 0.1f;
     public float jumpingPower;
     [Header ("Atacks")]
@@ -51,6 +53,10 @@ public class player : MonoBehaviour
         ichigoTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalMaterial = spriteRenderer.material;
+        swordImpact = transform.Find("sword_impact").gameObject;
+        if(!touchingGround){
+            jumpping = true;
+        }
     }
     
     void Update()
@@ -358,6 +364,14 @@ public class player : MonoBehaviour
         dashing = false;
         anim.ResetTrigger("dash");
         rb.gravityScale = 1f;
+    }
+
+    public void ActiveSwordImpact1(){
+        swordImpact.SetActive(true);
+    }
+
+    public void DisableSwordImpact1(){
+        swordImpact.SetActive(false);
     }
 
 
