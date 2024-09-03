@@ -22738,7 +22738,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.14003181, y: -0.00000008940697}
+  m_Offset: {x: -0.055928946, y: -0.00000008940697}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -22749,7 +22749,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.63054466, y: 0.45196867}
+  m_Size: {x: 0.46233892, y: 0.45196867}
   m_EdgeRadius: 0
 --- !u!1 &619394800
 GameObject:
@@ -23197,7 +23197,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5af2bb4a01412054aa9e1bc2384fb908, type: 2}
+  - {fileID: 2100000, guid: 79c99b34f8572fb4aaea81e89181b60c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -44753,6 +44753,83 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1892571154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1892571155}
+  - component: {fileID: 1892571156}
+  m_Layer: 0
+  m_Name: sword_impact_air
+  m_TagString: ichigo_sword
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1892571155
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892571154}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.342, y: 0.239, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1899868941}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1892571156
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892571154}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.055928946, y: -0.00000008940697}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.46233892, y: 0.45196867}
+  m_EdgeRadius: 0
 --- !u!1 &1899868938
 GameObject:
   m_ObjectHideFlags: 0
@@ -44865,6 +44942,7 @@ Transform:
   - {fileID: 1001427746}
   - {fileID: 205337406}
   - {fileID: 605377869}
+  - {fileID: 1892571155}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &1899868942
@@ -44955,6 +45033,7 @@ MonoBehaviour:
   ichigoTransform: {fileID: 0}
   rb: {fileID: 1899868943}
   swordImpact: {fileID: 0}
+  swordImpactAir: {fileID: 0}
   moveSpeed: 2
   moving: 0
   frontCheck: {fileID: 1001427746}
@@ -44964,12 +45043,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   touchingGround: 0
-  jumpping: 1
   deadZone: 0.1
   jumpingPower: 4
   attacking: 0
   attacking_air: 0
-  canAtack: 0
+  canAtack: 1
   canDust: 1
   dust_jump_fx: {fileID: 8989361609670280078, guid: dc63349f6498fc944a9a5d6f99f7b4f2, type: 3}
   dust_sword_fx: {fileID: 2592234961986521783, guid: 7311fb741bb528349a81b88181c4c7ee, type: 3}

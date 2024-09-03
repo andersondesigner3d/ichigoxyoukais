@@ -11,6 +11,7 @@ public class player : MonoBehaviour
     public Rigidbody2D rb;
     [Header ("Sword Impact")]
     public GameObject swordImpact;
+    public GameObject swordImpactAir;
     [Header ("Moviment")]
     public float moveSpeed = 5f;
     float horizontalMoviment;
@@ -24,13 +25,12 @@ public class player : MonoBehaviour
     public LayerMask groundLayer;
     public bool touchingGround;
     [Header ("Jump")]
-    public bool jumpping;
     public float deadZone = 0.1f;
     public float jumpingPower;
     [Header ("Atacks")]
     public bool attacking;
     public bool attacking_air;
-    public bool canAtack;
+    public bool canAtack = true;
     [Header ("Visual FX")]
     public bool canDust = true;
     public GameObject dust_jump_fx;
@@ -39,7 +39,7 @@ public class player : MonoBehaviour
     [Header ("Audio")]
     public AudioSource audioSource;
     public AudioClip[] audioClip;
-    [Header ("Meteriais and Glows")]
+    [Header ("Materiais and Glows")]
     public Material originalMaterial;
     public Material swordGlowMaterial;
     public Material airSwordGlowMaterial;
@@ -54,9 +54,7 @@ public class player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalMaterial = spriteRenderer.material;
         swordImpact = transform.Find("sword_impact").gameObject;
-        if(!touchingGround){
-            jumpping = true;
-        }
+        swordImpactAir = transform.Find("sword_impact_air").gameObject;
     }
     
     void Update()
@@ -88,6 +86,10 @@ public class player : MonoBehaviour
 
         if(dashing){
             rb.gravityScale = 0f;
+        }
+
+        if(touchingGround){
+            DisableSwordImpactAir();
         }
 
 
@@ -202,9 +204,6 @@ public class player : MonoBehaviour
         if(context.performed && IsGrounded()){
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
             playSoundJump();
-            if(!jumpping){
-                jumpping = true;
-            }
             if(canDust){
                 dustInGround();
             }
@@ -370,8 +369,15 @@ public class player : MonoBehaviour
         swordImpact.SetActive(true);
     }
 
+    public void ActiveSwordImpactAir(){
+        swordImpactAir.SetActive(true);
+    }
+
     public void DisableSwordImpact1(){
         swordImpact.SetActive(false);
+    }
+    public void DisableSwordImpactAir(){
+        swordImpactAir.SetActive(false);
     }
 
 

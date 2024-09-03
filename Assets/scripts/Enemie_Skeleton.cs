@@ -75,8 +75,9 @@ public class Enemie_Skeleton : Enemie
             anim.SetBool("dano",true);
             anim.SetBool("parado", false);
             anim.SetBool("andando", false);
+            rb.velocity = new Vector2(0, rb.velocity.y);//stop 
             Vector2 forceDirection = (transform.position - other.transform.position).normalized;
-            float forceMagnitude = 3f; // Ajuste este valor conforme necessário
+            float forceMagnitude = 2.5f; // Ajuste este valor conforme necessário
             rb.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
             HorizontalCutFx();
             subtractLife(30);

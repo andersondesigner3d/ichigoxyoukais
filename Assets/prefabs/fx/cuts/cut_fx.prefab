@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2890492926033726851}
   - component: {fileID: -602190254474376566}
   m_Layer: 0
-  m_Name: horizontal_cut_fx
+  m_Name: cut_fx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
