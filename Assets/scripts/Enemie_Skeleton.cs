@@ -1,39 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemie_Skeleton : Enemie
 {   
+    
+    [Header ("General")]
+    public float velocidade = 3f;
+    public float distanciaPerseguicao = 10f;
+    private float distanciaAtaque = 0.4f;
+    private bool viradoParaDireita = true;
+
+    public bool vivo = true;
+    public bool andando;
+    public bool atacando = false;
+    public bool apanhando;
+
+    public float distancia;
+
     // protected override void StartingGame()
     // {
     //     print("Humanoide iniciou o jogo.");
         
     // }
-    [Header ("General")]
-    public float velocidade = 3f;
-    public float distanciaPerseguicao = 10f;
-    private bool viradoParaDireita = true;
-
-    public bool vivo = true;
-    public bool andando;
-    public bool atacando;
-    public bool apanhando;
 
     void Update()
     {
-        move();
-        verifyLifeAmout();
+        if(!atacando){
+            Move();
+        }
+        VerifyLifeAmout();
         if(lifeAmount<=0){
             death();
         }
+        distancia = Vector2.Distance(transform.position, ichigo.transform.position);
+        Ataca();
     }
 
-    public void move(){
+    public void Move(){
 
         if(!apanhando && vivo){
-            float distancia = Vector2.Distance(transform.position, ichigo.transform.position);        
-            if (distancia < distanciaPerseguicao)
-            {
+                    
+            if (distancia < distanciaPerseguicao){
+
                 Vector2 direcao = (ichigo.transform.position - transform.position).normalized;
                 rb.velocity = new Vector2(direcao.x * velocidade, rb.velocity.y);
                 
@@ -45,6 +52,7 @@ public class Enemie_Skeleton : Enemie
                 {
                     Flip();
                 }
+
             } else {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
@@ -57,7 +65,22 @@ public class Enemie_Skeleton : Enemie
                 anim.SetBool("andando", false);
             }
         }
-        
+    }
+
+    void Ataca(){
+        if((distancia < distanciaAtaque) && !apanhando && !atacando){
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            atacando = true;
+            anim.SetBool("atacando", true);
+            anim.SetBool("parado", false);
+            anim.SetBool("andando", false);
+        }
+    }
+
+    void EndAttack(){
+        atacando = false;
+        apanhando = false;
+        anim.SetBool("atacando", false);
     }
 
     void Flip(){
@@ -68,25 +91,31 @@ public class Enemie_Skeleton : Enemie
             transform.localScale = escala;
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other) {
-        if(other.CompareTag("ichigo_sword") && !apanhando && vivo){
-            apanhando = true;
-            anim.SetBool("dano",true);
-            anim.SetBool("parado", false);
-            anim.SetBool("andando", false);
-            rb.velocity = new Vector2(0, rb.velocity.y);//stop 
-            Vector2 forceDirection = (transform.position - other.transform.position).normalized;
-            float forceMagnitude = 2.5f; // Ajuste este valor conforme necessário
-            rb.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
-            HorizontalCutFx();
-            subtractLife(30);
-            StartCoroutine(MicroPause());
+    
+    public void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("ichigo_sword")){
+            if(vivo){
+                if(!atacando){
+                    anim.SetBool("dano",true);
+                    rb.velocity = new Vector2(0, rb.velocity.y);//stop 
+                    Vector2 forceDirection = (transform.position - other.transform.position).normalized;
+                    float forceMagnitude = 2.5f; // Ajuste este valor conforme necessário
+                    rb.AddForce(forceDirection * forceMagnitude, ForceMode2D.Impulse);
+                }
+                anim.SetBool("parado", false);
+                anim.SetBool("andando", false);
+                
+                HorizontalCutFx();
+                SubtractLife(30);
+                StartCoroutine(MicroPause());
+                apanhando = true;
+            }
         }
     }
 
     public void endDamage(){
         apanhando = false;
+        atacando = false;
         anim.SetBool("dano",false);        
     }
 

@@ -49,15 +49,16 @@ public class Enemie : MonoBehaviour {
         this.audioSource.PlayOneShot(this.audioSource.clip);
     }
 
-    public void subtractLife(int valor){
+    public void SubtractLife(int valor){
         lifeAmount -= valor;
     }
 
-    public void verifyLifeAmout(){
+    public void VerifyLifeAmout(){
         if(lifeAmount < 0){
             lifeAmount = 0;
         }
     }
+
 
     public IEnumerator MicroPause(){
         // Reduzir o tempo para criar o efeito de micropausa

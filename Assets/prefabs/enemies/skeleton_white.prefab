@@ -34,7 +34,8 @@ Transform:
   m_LocalPosition: {x: 6.24, y: 0.27, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3049184106919665865}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2287572924254246484
@@ -169,7 +170,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0057466105, y: 0.12647812}
+  m_Offset: {x: 0.03163599, y: 0.12647812}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.31612483, y: 0}
@@ -180,7 +181,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1402467, y: 0.23741414}
+  m_Size: {x: 0.15384007, y: 0.23741415}
   m_EdgeRadius: 0
 --- !u!114 &4154768047121170823
 MonoBehaviour:
@@ -200,10 +201,11 @@ MonoBehaviour:
   myTransform: {fileID: 0}
   rb: {fileID: 0}
   ichigo: {fileID: 0}
+  impactPoint: {fileID: 0}
   lifeAmount: 100
   ItemDroped: {fileID: 0}
-  soundAttack: {fileID: 0}
-  soundDeath: {fileID: 0}
+  soundAttack: {fileID: 8300000, guid: edced797ba162ef4ab2d860684fd4f34, type: 3}
+  soundDeath: {fileID: 8300000, guid: 86c22207de723364da97a84251504730, type: 3}
   horizontalCutFx: {fileID: 4611182644033057079, guid: 3fadab79312ab6e43ac2f19ca21d096a, type: 3}
   velocidade: 0.5
   distanciaPerseguicao: 2
@@ -211,6 +213,7 @@ MonoBehaviour:
   andando: 0
   atacando: 0
   apanhando: 0
+  distancia: 0
 --- !u!82 &895294203536126915
 AudioSource:
   m_ObjectHideFlags: 0
@@ -229,7 +232,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 256
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -307,3 +310,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &6273497727898510772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3049184106919665865}
+  m_Layer: 7
+  m_Name: impactPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3049184106919665865
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6273497727898510772}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6391575087461152842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

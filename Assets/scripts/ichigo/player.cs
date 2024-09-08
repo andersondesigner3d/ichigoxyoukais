@@ -10,8 +10,10 @@ public class player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
     [Header ("Sword Impact")]
+    public GameObject localSwordImpact;
+    public GameObject temporarySwordImpact = null;
+    public GameObject temporarySwordImpactAir = null;
     public GameObject swordImpact;
-    public GameObject swordImpactAir;
     [Header ("Moviment")]
     public float moveSpeed = 5f;
     float horizontalMoviment;
@@ -53,8 +55,8 @@ public class player : MonoBehaviour
         ichigoTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalMaterial = spriteRenderer.material;
-        swordImpact = transform.Find("sword_impact").gameObject;
-        swordImpactAir = transform.Find("sword_impact_air").gameObject;
+        localSwordImpact = transform.Find("local_sword_impact").gameObject;
+        //swordImpactAir = transform.Find("sword_impact_air").gameObject;
     }
     
     void Update()
@@ -90,6 +92,8 @@ public class player : MonoBehaviour
 
         if(touchingGround){
             DisableSwordImpactAir();
+        } else {
+            DisableSwordImpact1();
         }
 
 
@@ -97,12 +101,7 @@ public class player : MonoBehaviour
         FixMaterialBugs();
         FixAttackBugs();
         animationControll();
-    }
-
-    private void FixedUpdate() {
-
-        
-        
+        SwordImpactFixPosition();
     }
 
     private void animationControll(){
@@ -164,7 +163,6 @@ public class player : MonoBehaviour
     }
 
     private void fixAnimationBugs(){
-        //fiz animations bugs
         if(!attacking && !attacking_air && !dashing){
             if(touchingGround){
                 anim.SetBool("pulando-subindo",false);
@@ -178,7 +176,6 @@ public class player : MonoBehaviour
                 attacking = false;
             }
         }
-        
     }
 
     public void Move(InputAction.CallbackContext context){        
@@ -193,7 +190,7 @@ public class player : MonoBehaviour
     IEnumerator delayControl(){
         yield return new WaitForSeconds(0.05f);        
         if(horizontalMoviment == 0){
-             print("cria fumacinha");
+            //print("cria fumacinha");
         }       
     }
 
@@ -264,16 +261,16 @@ public class player : MonoBehaviour
         if (context.phase == InputActionPhase.Started){
             if(!attacking && !attacking_air && !dashing){
                 if(touchingGround && canAtack){
-                attacking = true;
-                attacking_air = false;
-                spriteRenderer.material = swordGlowMaterial;
-                anim.SetTrigger("ataque1");
-                anim.SetBool("parado",false);
-                anim.SetBool("correndo",false);
-                anim.SetBool("pulando-subindo",false);
-                anim.SetBool("pulando-caindo",false);
-                anim.SetBool("sofrendo-dano",false);
-                anim.SetBool("morto",false);
+                    attacking = true;
+                    attacking_air = false;
+                    spriteRenderer.material = swordGlowMaterial;
+                    anim.SetTrigger("ataque1");
+                    anim.SetBool("parado",false);
+                    anim.SetBool("correndo",false);
+                    anim.SetBool("pulando-subindo",false);
+                    anim.SetBool("pulando-caindo",false);
+                    anim.SetBool("sofrendo-dano",false);
+                    anim.SetBool("morto",false);
                 } else {
                     attacking_air = true;
                     attacking = false;
@@ -353,7 +350,6 @@ public class player : MonoBehaviour
                 } else {
                     CriaDashWindFx();
                 }
-                
             }
         }
     }
@@ -365,19 +361,38 @@ public class player : MonoBehaviour
         rb.gravityScale = 1f;
     }
 
+    private void SwordImpactFixPosition(){
+        if(localSwordImpact){
+           if(temporarySwordImpact){
+                temporarySwordImpact.transform.position = localSwordImpact.transform.position;
+           }
+           if(temporarySwordImpactAir){
+                temporarySwordImpactAir.transform.position = localSwordImpact.transform.position;
+           }
+        }
+    }
+
     public void ActiveSwordImpact1(){
-        swordImpact.SetActive(true);
+        DisableSwordImpact1();
+        temporarySwordImpact = Instantiate(swordImpact, localSwordImpact.transform.position, Quaternion.identity);
     }
 
     public void ActiveSwordImpactAir(){
-        swordImpactAir.SetActive(true);
+        DisableSwordImpactAir();
+        temporarySwordImpactAir = Instantiate(swordImpact, localSwordImpact.transform.position, Quaternion.identity);
     }
 
     public void DisableSwordImpact1(){
-        swordImpact.SetActive(false);
+        if(temporarySwordImpact != null){
+            Destroy(temporarySwordImpact);
+            temporarySwordImpact = null;
+        }
     }
     public void DisableSwordImpactAir(){
-        swordImpactAir.SetActive(false);
+        if(temporarySwordImpactAir != null){
+            Destroy(temporarySwordImpactAir);
+            temporarySwordImpactAir = null;
+        }
     }
 
 
