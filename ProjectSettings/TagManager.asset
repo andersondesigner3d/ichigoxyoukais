@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - ichigo_sword
+  - enemie_sword
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Ground
   - Enemies
   - Hero_Sword
-  - 
+  - Enemie_Sword
   - 
   - 
   - 

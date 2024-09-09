@@ -13,12 +13,15 @@ public class Enemie : MonoBehaviour {
     public GameObject impactPoint;
     [Header ("Others")]
     public int lifeAmount;
+    public string swordDamage;
     public GameObject ItemDroped;
     [Header ("Audio")]
     public AudioClip soundAttack;
     public AudioClip soundDeath;
     [Header ("FX")]
     public GameObject horizontalCutFx;
+    public GameObject damageText;
+    
     
     
     void Start()

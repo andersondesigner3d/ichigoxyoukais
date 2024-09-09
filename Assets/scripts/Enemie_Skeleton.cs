@@ -6,21 +6,24 @@ public class Enemie_Skeleton : Enemie
     [Header ("General")]
     public float velocidade = 3f;
     public float distanciaPerseguicao = 10f;
-    private float distanciaAtaque = 0.4f;
+    public float distanciaAtaque = 0.4f;
     private bool viradoParaDireita = true;
-
+    public float distancia;
+    [Header ("Status")]
     public bool vivo = true;
     public bool andando;
     public bool atacando = false;
-    public bool apanhando;
+    public bool apanhando;    
+    [Header ("Atack")]
+    public GameObject localHitBox;
+    public GameObject atackHitBox;
 
-    public float distancia;
 
-    // protected override void StartingGame()
-    // {
-    //     print("Humanoide iniciou o jogo.");
-        
-    // }
+    //executa dentro do start
+    protected override void StartingGame()
+    {
+        localHitBox = transform.Find("local_hit_box").gameObject;
+    }
 
     void Update()
     {
@@ -77,6 +80,10 @@ public class Enemie_Skeleton : Enemie
         }
     }
 
+    public void createHitBox(){
+        GameObject hitBoxAttack = Instantiate(atackHitBox, this.gameObject.transform);
+    }
+
     void EndAttack(){
         atacando = false;
         apanhando = false;
@@ -105,8 +112,9 @@ public class Enemie_Skeleton : Enemie
                 anim.SetBool("parado", false);
                 anim.SetBool("andando", false);
                 
+                DamageText();
                 HorizontalCutFx();
-                SubtractLife(30);
+                SubtractLife(int.Parse(swordDamage));
                 StartCoroutine(MicroPause());
                 apanhando = true;
             }
@@ -130,6 +138,11 @@ public class Enemie_Skeleton : Enemie
 
     public void HorizontalCutFx(){
         Instantiate(horizontalCutFx, new Vector3(impactPoint.transform.position.x, impactPoint.transform.position.y, 0), Quaternion.identity);
+    }
+
+    public void DamageText(){
+        GameObject textFx = Instantiate(damageText, new Vector3(impactPoint.transform.position.x, impactPoint.transform.position.y, 0), Quaternion.identity);
+        textFx.GetComponent<DamageText>().value = swordDamage;
     }
 
 }

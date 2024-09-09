@@ -32,10 +32,11 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.24, y: 0.27, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3049184106919665865}
+  - {fileID: 1474806999890377498}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2287572924254246484
@@ -203,17 +204,22 @@ MonoBehaviour:
   ichigo: {fileID: 0}
   impactPoint: {fileID: 0}
   lifeAmount: 100
+  swordDamage: 30
   ItemDroped: {fileID: 0}
   soundAttack: {fileID: 8300000, guid: edced797ba162ef4ab2d860684fd4f34, type: 3}
   soundDeath: {fileID: 8300000, guid: 86c22207de723364da97a84251504730, type: 3}
   horizontalCutFx: {fileID: 4611182644033057079, guid: 3fadab79312ab6e43ac2f19ca21d096a, type: 3}
+  damageText: {fileID: 9107602644248530868, guid: eb871a94d47fecd43bc9e095ce4adff2, type: 3}
   velocidade: 0.5
   distanciaPerseguicao: 2
+  distanciaAtaque: 0.6
+  distancia: 0
   vivo: 1
   andando: 0
   atacando: 0
   apanhando: 0
-  distancia: 0
+  localHitBox: {fileID: 0}
+  atackHitBox: {fileID: 6424283026094995559, guid: 49464342564e8c44cab64544aa7d5c43, type: 3}
 --- !u!82 &895294203536126915
 AudioSource:
   m_ObjectHideFlags: 0
@@ -336,6 +342,37 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.12, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6391575087461152842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6851134174871024210
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1474806999890377498}
+  m_Layer: 7
+  m_Name: local_hit_box
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1474806999890377498
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6851134174871024210}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.234, y: 0.105, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

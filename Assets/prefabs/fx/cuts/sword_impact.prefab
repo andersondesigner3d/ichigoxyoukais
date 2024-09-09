@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8112221636192913580}
   - component: {fileID: 5079328757872751481}
+  - component: {fileID: -9001656541948680973}
   m_Layer: 8
   m_Name: sword_impact
   m_TagString: ichigo_sword
@@ -77,3 +78,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.46233892, y: 0.45196867}
   m_EdgeRadius: 0
+--- !u!114 &-9001656541948680973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5931835756600381024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91358e964d58aa64baf45cd9cd57dd83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1
