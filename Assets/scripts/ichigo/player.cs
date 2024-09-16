@@ -12,6 +12,7 @@ public class player : MonoBehaviour
     public Transform ichigoTransform;
     private SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
+    public GameController gameController;
     [Header ("Sword Impact")]
     public GameObject localSwordImpact;
     public GameObject temporarySwordImpact = null;
@@ -71,6 +72,7 @@ public class player : MonoBehaviour
         originalMaterial = spriteRenderer.material;
         localSwordImpact = transform.Find("local_sword_impact").gameObject;
         impactPoint = transform.Find("impact_point").gameObject;
+        gameController = GameObject.Find("GameController")?.GetComponent<GameController>();
         //swordImpactAir = transform.Find("sword_impact_air").gameObject;
     }
     
@@ -145,10 +147,15 @@ public class player : MonoBehaviour
         anim.ResetTrigger("ataque1");
         anim.ResetTrigger("ataque_ar");
         anim.ResetTrigger("dash");
+        StartCoroutine(ShowBlackPanel());
     }
 
-     private IEnumerator CameraLentaCoroutine(float duracao)
-    {
+    IEnumerator ShowBlackPanel(){
+        yield return new WaitForSeconds(1f);        
+        gameController.BlackPanelUi();     
+    }
+
+    private IEnumerator CameraLentaCoroutine(float duracao){
         Time.timeScale = 0.5f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         yield return new WaitForSecondsRealtime(duracao);

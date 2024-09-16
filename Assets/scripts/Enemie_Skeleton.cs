@@ -121,7 +121,8 @@ public class Enemie_Skeleton : Enemie
     public void endDamage(){
         apanhando = false;
         atacando = false;
-        anim.SetBool("dano",false);        
+        anim.SetBool("dano",false);
+        print("fim do dano na caveira");
     }
 
     public void death(){
