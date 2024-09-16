@@ -61,6 +61,19 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void CloseGame()
+    {
+        Application.Quit();
+
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+    }
+
+    public void GoToMenuPrincipal(){
+        SceneManager.LoadScene("menu-principal");
+    }
+
     private void verifyLifeAndMp(){
         if (ichigo != null){
             if(lifeImage != null){
