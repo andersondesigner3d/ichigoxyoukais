@@ -18,7 +18,6 @@ public class Enemie_Skeleton : Enemie
     public GameObject localHitBox;
     public GameObject atackHitBox;
 
-
     //executa dentro do start
     protected override void StartingGame()
     {
@@ -34,16 +33,16 @@ public class Enemie_Skeleton : Enemie
         if(lifeAmount<=0){
             death();
         }
-        distancia = Vector2.Distance(transform.position, ichigo.transform.position);
+        if(ichigo!=null){
+            distancia = Vector2.Distance(transform.position, ichigo.transform.position);
+        }
         Ataca();
+        FindInchigo();
     }
 
     public void Move(){
-
-        if(!apanhando && vivo){
-                    
+        if(!apanhando && vivo && ichigo!=null && ichigo.vivo){                    
             if (distancia < distanciaPerseguicao){
-
                 Vector2 direcao = (ichigo.transform.position - transform.position).normalized;
                 rb.velocity = new Vector2(direcao.x * velocidade, rb.velocity.y);
                 
@@ -55,23 +54,21 @@ public class Enemie_Skeleton : Enemie
                 {
                     Flip();
                 }
-
             } else {
                 rb.velocity = new Vector2(0, rb.velocity.y);
             }
-
-            if(rb.velocity.x != 0){
-                anim.SetBool("parado", false);
-                anim.SetBool("andando", true);
-            } else {
-                anim.SetBool("parado", true);
-                anim.SetBool("andando", false);
-            }
+        }
+        if(rb.velocity.x != 0){
+            anim.SetBool("parado", false);
+            anim.SetBool("andando", true);
+        } else {
+            anim.SetBool("parado", true);
+            anim.SetBool("andando", false);
         }
     }
 
     void Ataca(){
-        if((distancia < distanciaAtaque) && !apanhando && !atacando){
+        if((distancia < distanciaAtaque) && !apanhando && !atacando && ichigo!=null && ichigo.vivo && vivo){
             rb.velocity = new Vector2(0, rb.velocity.y);
             atacando = true;
             anim.SetBool("atacando", true);

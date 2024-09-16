@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 public class player : MonoBehaviour
 {   
     [Header ("Principal")]
+    public bool vivo = true;
     public int lifeAmount;
+    public int mpAmount;
     public Animator anim;
     public Transform ichigoTransform;
     private SpriteRenderer spriteRenderer;
@@ -50,6 +52,7 @@ public class player : MonoBehaviour
     [Header ("Damage")]
     public GameObject impactPoint;
     public GameObject enemieCutFx;
+    public GameObject bloodFx;
     public GameObject damageText;
     public bool sofrendoDano;
     public float forcaImpactoFracaEixoX;//inimigos pequenos
@@ -89,7 +92,7 @@ public class player : MonoBehaviour
         
         //movement
         if(!dashing){
-            if(sofrendoDano)
+            if(sofrendoDano || !vivo)
                 return;
             if(attacking){
                 rb.velocity = new Vector2(0, rb.velocity.y);
@@ -117,7 +120,40 @@ public class player : MonoBehaviour
         animationControll();
         SwordImpactFixPosition();
         FixLifeAmount();
+        VerifyLife();
+    }
 
+    private void VerifyLife(){
+        if(lifeAmount <= 0){
+            vivo = false;
+            anim.SetTrigger("morto");
+            Death();
+        } else {
+            vivo = true;
+        }
+    }
+
+    public void Death(){
+        playSoundDeath();
+        StartCoroutine(CameraLentaCoroutine(3));
+        vivo = false;
+        anim.SetBool("parado",false);
+        anim.SetBool("correndo",false);
+        anim.SetBool("pulando-subindo",false);
+        anim.SetBool("pulando-caindo",false);
+        anim.SetBool("sofrendo-dano",false);
+        anim.ResetTrigger("ataque1");
+        anim.ResetTrigger("ataque_ar");
+        anim.ResetTrigger("dash");
+    }
+
+     private IEnumerator CameraLentaCoroutine(float duracao)
+    {
+        Time.timeScale = 0.5f;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
+        yield return new WaitForSecondsRealtime(duracao);
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02f;
     }
 
     private void FixLifeAmount(){
@@ -135,14 +171,12 @@ public class player : MonoBehaviour
                     anim.SetBool("pulando-subindo",false);
                     anim.SetBool("pulando-caindo",false);
                     anim.SetBool("sofrendo-dano",false);
-                    anim.SetBool("morto",false);
                 } else if(horizontalMoviment != 0 && !touchingWall && rb.velocity.x != 0) {
                     anim.SetBool("parado",false);
                     anim.SetBool("correndo",true);
                     anim.SetBool("pulando-subindo",false);
                     anim.SetBool("pulando-caindo",false);
                     anim.SetBool("sofrendo-dano",false);
-                    anim.SetBool("morto",false);
                 }
             } else {
                 if(rb.velocity.y >= 0){
@@ -151,14 +185,12 @@ public class player : MonoBehaviour
                     anim.SetBool("pulando-subindo",true);
                     anim.SetBool("pulando-caindo",false);
                     anim.SetBool("sofrendo-dano",false);
-                    anim.SetBool("morto",false);
                 } else {
                     anim.SetBool("parado",false);
                     anim.SetBool("correndo",false);
                     anim.SetBool("pulando-subindo",false);
                     anim.SetBool("pulando-caindo",true);
                     anim.SetBool("sofrendo-dano",false);
-                    anim.SetBool("morto",false);
                 }
             }
         }
@@ -207,7 +239,7 @@ public class player : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context){
 
-        if(sofrendoDano)
+        if(sofrendoDano || !vivo)
             return;
 
         horizontalMoviment = Mathf.RoundToInt(context.ReadValue<Vector2>().x);
@@ -226,7 +258,7 @@ public class player : MonoBehaviour
     }
 
     public void Jump(InputAction.CallbackContext context){
-        if(dashing || attacking || attacking_air || sofrendoDano)
+        if(dashing || attacking || attacking_air || sofrendoDano || !vivo)
             return;
 
         if(context.performed && IsGrounded()){
@@ -280,7 +312,7 @@ public class player : MonoBehaviour
     }
 
     private void Flip(){
-        if(attacking || dashing || attacking_air)
+        if(attacking || dashing || attacking_air || !vivo)
             return;
         isFacingRight = !isFacingRight;
         Vector3 localScale = transform.localScale;
@@ -290,7 +322,7 @@ public class player : MonoBehaviour
 
     public void Sword(InputAction.CallbackContext context){
         if (context.phase == InputActionPhase.Started){
-            if(!attacking && !attacking_air && !dashing && !sofrendoDano){
+            if(!attacking && !attacking_air && !dashing && !sofrendoDano && vivo){
                 if(touchingGround && canAtack){
                     attacking = true;
                     attacking_air = false;
@@ -301,7 +333,6 @@ public class player : MonoBehaviour
                     anim.SetBool("pulando-subindo",false);
                     anim.SetBool("pulando-caindo",false);
                     anim.SetBool("sofrendo-dano",false);
-                    anim.SetBool("morto",false);
                 } else {
                     attacking_air = true;
                     attacking = false;
@@ -314,7 +345,6 @@ public class player : MonoBehaviour
                     anim.SetBool("pulando-subindo",false);
                     anim.SetBool("pulando-caindo",false);
                     anim.SetBool("sofrendo-dano",false);
-                    anim.SetBool("morto",false);
                 }
             }
         }                       
@@ -355,7 +385,7 @@ public class player : MonoBehaviour
 
     public void Dash(InputAction.CallbackContext context){
         if (context.phase == InputActionPhase.Started){
-            if(!dashing && !attacking && !attacking_air && !sofrendoDano){
+            if(!dashing && !attacking && !attacking_air && !sofrendoDano && mpAmount>=10 && vivo){
                 spriteRenderer.material = originalMaterial;
                 anim.SetTrigger("dash");
                 anim.ResetTrigger("ataque_ar");
@@ -365,8 +395,8 @@ public class player : MonoBehaviour
                 anim.SetBool("pulando-subindo",false);
                 anim.SetBool("pulando-caindo",false);
                 anim.SetBool("sofrendo-dano",false);
-                anim.SetBool("morto",false);
                 dashing = true;
+                mpAmount-=10;
                 StartCoroutine(EndDash());
                 
                 float dashDirection = isFacingRight ? 1f : -1f;
@@ -437,6 +467,10 @@ public class player : MonoBehaviour
     public void EnemieCutFx(){
         Instantiate(enemieCutFx, new Vector3(impactPoint.transform.position.x, impactPoint.transform.position.y, 0), Quaternion.identity);
     }
+    
+    public void BloodFx(){
+        Instantiate(bloodFx, new Vector3(impactPoint.transform.position.x, impactPoint.transform.position.y, 0), Quaternion.identity);
+    }
 
     public void DamageText(string value){
         GameObject textFx = Instantiate(damageText, new Vector3(impactPoint.transform.position.x, impactPoint.transform.position.y, 0), Quaternion.identity);
@@ -445,7 +479,15 @@ public class player : MonoBehaviour
 
     //================== COLISIONS =====================
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.gameObject.CompareTag("enemie_sword") && !dashing && !sofrendoDano){
+        if(other.gameObject.CompareTag("enemie_sword") && !dashing && !sofrendoDano && vivo){
+            //damage
+            lifeAmount-=10;
+            if(lifeAmount<=0){
+                anim.SetTrigger("morto");
+                Death();
+            } else {
+                playSoundDamage();
+            }
             //fix bugs
             sofrendoDano = true;
             attacking_air = false;
@@ -477,9 +519,9 @@ public class player : MonoBehaviour
             anim.SetBool("pulando-caindo",false);
             //FX
             EnemieCutFx();
+            BloodFx();
             DamageText("10");
-            //damage
-            lifeAmount-=10;
+            
 
             if(other.transform.parent.localScale.x > 0){
                 if(touchingGround){
@@ -531,6 +573,19 @@ public class player : MonoBehaviour
     public void playSoundDashWind(){
         this.audioSource.enabled = true;
         this.audioSource.clip = audioClip[5];
+        this.audioSource.PlayOneShot(this.audioSource.clip);
+    }
+
+    public void playSoundDamage(){
+        this.audioSource.enabled = true;
+        int rand = Random.Range(7, 9);
+        this.audioSource.clip = audioClip[rand];
+        this.audioSource.PlayOneShot(this.audioSource.clip);
+    }
+
+    public void playSoundDeath(){
+        this.audioSource.enabled = true;
+        this.audioSource.clip = audioClip[10];
         this.audioSource.PlayOneShot(this.audioSource.clip);
     }
 

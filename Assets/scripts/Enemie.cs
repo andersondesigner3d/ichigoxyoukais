@@ -23,7 +23,6 @@ public class Enemie : MonoBehaviour {
     public GameObject damageText;
     
     
-    
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -38,6 +37,13 @@ public class Enemie : MonoBehaviour {
 
     protected virtual void StartingGame(){
         //faz alguma coisa quando o objeto é criado
+    }
+
+    public void FindInchigo(){
+        GameObject ichigoObject = GameObject.Find("ichigo");
+        if (ichigoObject != null){
+            ichigo = ichigoObject.GetComponent<player>();
+        }
     }
 
     public void PlaySoundAttack(){
