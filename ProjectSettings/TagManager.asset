@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - ichigo_sword
   - enemie_sword
+  - save_game
   layers:
   - Default
   - TransparentFX
@@ -55,6 +56,9 @@ TagManager:
     locked: 0
   - name: castle
     uniqueID: 1992602835
+    locked: 0
+  - name: back_hero
+    uniqueID: 1874795119
     locked: 0
   - name: hero
     uniqueID: 155620571

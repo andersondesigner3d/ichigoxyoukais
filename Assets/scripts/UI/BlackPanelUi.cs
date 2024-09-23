@@ -7,6 +7,7 @@ public class BlackPanelUi : MonoBehaviour
     public Animator animator;
     public GameObject panelMenu;
     public Button lastSaveGame;
+    
 
     void Start()
     {

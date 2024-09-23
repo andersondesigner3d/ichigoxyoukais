@@ -13,6 +13,9 @@ public class player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
     public GameController gameController;
+    [Header ("Save Game")]
+    public bool canSave;
+    public GameObject saveGamePoint;
     [Header ("Sword Impact")]
     public GameObject localSwordImpact;
     public GameObject temporarySwordImpact = null;
@@ -62,6 +65,9 @@ public class player : MonoBehaviour
     public float forcaImpactoFracaEixoY;//inimigos pequenos
     public float forcaImpactoMedioEixoY;//inimigos medios
     public float forcaImpactoForteEixoY;//inimigos grandes
+    [Header ("Others")]
+    public bool CanPlaySounds = false;
+    public bool startMove = false;
 
     void Start()
     {
@@ -73,6 +79,10 @@ public class player : MonoBehaviour
         localSwordImpact = transform.Find("local_sword_impact").gameObject;
         impactPoint = transform.Find("impact_point").gameObject;
         gameController = GameObject.Find("GameController")?.GetComponent<GameController>();
+        if(gameController){
+            gameController.DisableCameraAudioListner();
+        }
+        StartCoroutine(CanPlayAllSounds());
         //swordImpactAir = transform.Find("sword_impact_air").gameObject;
     }
     
@@ -81,6 +91,8 @@ public class player : MonoBehaviour
         //print("horizontalMoviment: "+horizontalMoviment);
         //print("rb.velocity.y = "+rb.velocity.y);
         //print("verticalMoviment = "+verticalMoviment);
+        if(gameController.isPaused)
+            return;
 
         touchingGround = IsGrounded();
         touchingWall = canMove();
@@ -153,6 +165,11 @@ public class player : MonoBehaviour
     IEnumerator ShowBlackPanel(){
         yield return new WaitForSeconds(1f);        
         gameController.BlackPanelUi();     
+    }
+
+    IEnumerator CanPlayAllSounds(){
+        yield return new WaitForSeconds(1f);        
+        CanPlaySounds = true;
     }
 
     private IEnumerator CameraLentaCoroutine(float duracao){
@@ -246,7 +263,7 @@ public class player : MonoBehaviour
 
     public void Move(InputAction.CallbackContext context){
 
-        if(sofrendoDano || !vivo)
+        if(sofrendoDano || !vivo || !startMove)
             return;
 
         horizontalMoviment = Mathf.RoundToInt(context.ReadValue<Vector2>().x);
@@ -265,7 +282,7 @@ public class player : MonoBehaviour
     }
 
     public void Jump(InputAction.CallbackContext context){
-        if(dashing || attacking || attacking_air || sofrendoDano || !vivo)
+        if(dashing || attacking || attacking_air || sofrendoDano || !vivo || !startMove || gameController.isPaused || !gameController.canJump)
             return;
 
         if(context.performed && IsGrounded()){
@@ -328,8 +345,10 @@ public class player : MonoBehaviour
     }
 
     public void Sword(InputAction.CallbackContext context){
+        if(gameController.isPaused)
+            return;
         if (context.phase == InputActionPhase.Started){
-            if(!attacking && !attacking_air && !dashing && !sofrendoDano && vivo){
+            if(!attacking && !attacking_air && !dashing && !sofrendoDano && vivo && startMove){
                 if(touchingGround && canAtack){
                     attacking = true;
                     attacking_air = false;
@@ -391,8 +410,10 @@ public class player : MonoBehaviour
     }
 
     public void Dash(InputAction.CallbackContext context){
+        if(gameController.isPaused)
+            return;
         if (context.phase == InputActionPhase.Started){
-            if(!dashing && !attacking && !attacking_air && !sofrendoDano && mpAmount>=10 && vivo){
+            if(!dashing && !attacking && !attacking_air && !sofrendoDano && mpAmount>=10 && vivo && startMove){
                 spriteRenderer.material = originalMaterial;
                 anim.SetTrigger("dash");
                 anim.ResetTrigger("ataque_ar");
@@ -484,6 +505,27 @@ public class player : MonoBehaviour
         textFx.GetComponent<DamageText>().value = value;
     }
 
+    public void StartButton(InputAction.CallbackContext context){
+        if(context.phase == InputActionPhase.Started){
+            if(canSave && saveGamePoint!=null){
+                PlayerPrefs.SetInt("pointNumber", saveGamePoint.GetComponent<SaveGamePoint>().pointNumber);
+                PlayerPrefs.Save();
+                saveGamePoint.GetComponent<SaveGamePoint>().creatDisketFx();
+                canSave = false;
+            } else {
+                if(gameController.isPaused){
+                    gameController.ResumeGame();
+                } else {
+                    gameController.PauseGame();
+                }
+            }
+        }
+        
+        
+        
+            
+    }
+
     //================== COLISIONS =====================
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag("enemie_sword") && !dashing && !sofrendoDano && vivo){
@@ -544,6 +586,18 @@ public class player : MonoBehaviour
                 }
             }
         }
+
+        //save game
+        if(other.gameObject.CompareTag("save_game") && vivo){
+            canSave = true;
+            saveGamePoint = other.gameObject;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other) {
+        if(other.gameObject.CompareTag("save_game") && vivo){
+            canSave = false;  
+        }
     }
 
     //================== SOUNDS =====================
@@ -554,6 +608,8 @@ public class player : MonoBehaviour
     }
 
     public void playSoundLanding(){
+        if(!CanPlaySounds)
+            return;
         this.audioSource.enabled = true;
         this.audioSource.clip = audioClip[1];
         this.audioSource.PlayOneShot(this.audioSource.clip);

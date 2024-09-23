@@ -5,6 +5,7 @@ public class cameraEffect : MonoBehaviour
     public Transform player = null;  
     public float smoothTime = 0.3f;  
     private Vector3 velocity = Vector3.zero;
+    public GameController gameController;
 
     void Update()
     {

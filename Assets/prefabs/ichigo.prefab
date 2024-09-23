@@ -47,6 +47,7 @@ GameObject:
   - component: {fileID: 1348197032141519999}
   - component: {fileID: 1579264764577904842}
   - component: {fileID: 2228713543693375630}
+  - component: {fileID: 5378932624115545583}
   m_Layer: 3
   m_Name: ichigo
   m_TagString: Player
@@ -112,7 +113,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 155620571
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2a5bb23d5c8f2a946b2e073e726175b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -418,6 +419,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 703b1034-16d8-4123-800b-f5bc77e62529
     m_ActionName: Player/Dash[/XInputControllerWindows/buttonEast,/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1348197032141519999}
+        m_TargetAssemblyTypeName: player, Assembly-CSharp
+        m_MethodName: StartButton
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: da8ff878-011e-45cf-916b-03efc3f2a7d2
+    m_ActionName: Player/Start[/XInputControllerWindows/start]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -519,6 +536,14 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!81 &5378932624115545583
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2249891735066799569}
+  m_Enabled: 1
 --- !u!1 &2719995002326926302
 GameObject:
   m_ObjectHideFlags: 0
