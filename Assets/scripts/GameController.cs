@@ -136,6 +136,7 @@ public class GameController : MonoBehaviour
 
     public void CloseGame()
     {
+        CancelAllCoroutinesInScene();
         Application.Quit();
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
@@ -151,6 +152,7 @@ public class GameController : MonoBehaviour
 
     IEnumerator TimeGoToMenuPrincipal(){
         yield return new WaitForSecondsRealtime(1);
+        CancelAllCoroutinesInScene();
         SceneManager.LoadScene("menu-principal");
     }
 
@@ -186,7 +188,8 @@ public class GameController : MonoBehaviour
     }
 
     IEnumerator TimeRestarScene(){
-        yield return new WaitForSeconds(1);        
+        yield return new WaitForSeconds(1);
+        CancelAllCoroutinesInScene();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -238,6 +241,26 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void CancelAllCoroutinesInScene(){
+        // Encontra todos os GameObjects ativos na cena
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+
+        // Para cada objeto ativo
+        foreach (GameObject obj in allObjects)
+        {
+            // Obtem todos os componentes MonoBehaviour do objeto
+            MonoBehaviour[] scripts = obj.GetComponents<MonoBehaviour>();
+
+            // Para cada MonoBehaviour encontrado, cancela suas corrotinas
+            foreach (MonoBehaviour script in scripts)
+            {
+                script.StopAllCoroutines();
+            }
+        }
+        
+        Debug.Log("Todas as corrotinas foram canceladas.");
     }
 
     public void playTheme1(){
