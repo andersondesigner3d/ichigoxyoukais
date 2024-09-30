@@ -537,7 +537,7 @@ public class player : MonoBehaviour
             lifeAmount-=10;
             //pause
             if(lifeAmount>0){
-                StartCoroutine( MicroPause());
+                StartCoroutine( MicroPause(0.2f));
             } 
             if(lifeAmount<=0){
                 anim.SetTrigger("morto");
@@ -608,9 +608,9 @@ public class player : MonoBehaviour
         }
     }
 
-    IEnumerator MicroPause(){
+    IEnumerator MicroPause(float time){
         Time.timeScale = 0f;
-        yield return new WaitForSecondsRealtime(0.2f); // Duração da micropausa em tempo real (ajuste conforme necessário)
+        yield return new WaitForSecondsRealtime(time); //0.1 0.2 0.3 Duração da micropausa em tempo real (ajuste conforme necessário)
         
         // Restaurar o tempo ao normal
         Time.timeScale = 1f;
