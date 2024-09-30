@@ -239,6 +239,7 @@ MonoBehaviour:
   ichigoTransform: {fileID: 0}
   rb: {fileID: 5303909397576523903}
   gameController: {fileID: 0}
+  cameraFx: {fileID: 0}
   canSave: 0
   saveGamePoint: {fileID: 0}
   localSwordImpact: {fileID: 1716305938466356411}

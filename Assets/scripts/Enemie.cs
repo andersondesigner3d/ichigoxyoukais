@@ -68,13 +68,14 @@ public class Enemie : MonoBehaviour {
         }
     }
 
-
     public IEnumerator MicroPause(){
-        // Reduzir o tempo para criar o efeito de micropausa
-        Time.timeScale = 0.1f;
-        yield return new WaitForSecondsRealtime(0.1f); // Duração da micropausa em tempo real (ajuste conforme necessário)
-        
-        // Restaurar o tempo ao normal
-        Time.timeScale = 1f;
+        if(ichigo.lifeAmount > 0){
+            // Reduzir o tempo para criar o efeito de micropausa
+            Time.timeScale = 0f;
+            yield return new WaitForSecondsRealtime(0.2f); // Duração da micropausa em tempo real (ajuste conforme necessário)
+            
+            // Restaurar o tempo ao normal
+            Time.timeScale = 1f;
+        }
     }
 }

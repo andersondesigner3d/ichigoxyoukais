@@ -13,6 +13,7 @@ public class player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public Rigidbody2D rb;
     public GameController gameController;
+    public cameraEffect cameraFx;
     [Header ("Save Game")]
     public bool canSave;
     public GameObject saveGamePoint;
@@ -83,7 +84,7 @@ public class player : MonoBehaviour
             gameController.DisableCameraAudioListner();
         }
         StartCoroutine(CanPlayAllSounds());
-        //swordImpactAir = transform.Find("sword_impact_air").gameObject;
+        cameraFx = GameObject.Find("Main_Camera").GetComponent<cameraEffect>();
     }
     
     void Update()
@@ -91,6 +92,8 @@ public class player : MonoBehaviour
         //print("horizontalMoviment: "+horizontalMoviment);
         //print("rb.velocity.y = "+rb.velocity.y);
         //print("verticalMoviment = "+verticalMoviment);
+        print(Time.timeScale);
+
         if(gameController.isPaused)
             return;
 
@@ -148,8 +151,8 @@ public class player : MonoBehaviour
     }
 
     public void Death(){
-        playSoundDeath();
         StartCoroutine(CameraLentaCoroutine(3));
+        playSoundDeath();
         vivo = false;
         anim.SetBool("parado",false);
         anim.SetBool("correndo",false);
@@ -163,7 +166,7 @@ public class player : MonoBehaviour
     }
 
     IEnumerator ShowBlackPanel(){
-        yield return new WaitForSeconds(1f);        
+        yield return new WaitForSeconds(3f);        
         gameController.BlackPanelUi();     
     }
 
@@ -176,6 +179,7 @@ public class player : MonoBehaviour
         Time.timeScale = 0.5f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
         yield return new WaitForSecondsRealtime(duracao);
+        print("fim da camera lenta");
         Time.timeScale = 1f;
         Time.fixedDeltaTime = 0.02f;
     }
@@ -531,6 +535,10 @@ public class player : MonoBehaviour
         if(other.gameObject.CompareTag("enemie_sword") && !dashing && !sofrendoDano && vivo){
             //damage
             lifeAmount-=10;
+            //pause
+            if(lifeAmount>0){
+                StartCoroutine( MicroPause());
+            } 
             if(lifeAmount<=0){
                 anim.SetTrigger("morto");
                 Death();
@@ -598,6 +606,14 @@ public class player : MonoBehaviour
         if(other.gameObject.CompareTag("save_game") && vivo){
             canSave = false;  
         }
+    }
+
+    IEnumerator MicroPause(){
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(0.2f); // Duração da micropausa em tempo real (ajuste conforme necessário)
+        
+        // Restaurar o tempo ao normal
+        Time.timeScale = 1f;
     }
 
     //================== SOUNDS =====================

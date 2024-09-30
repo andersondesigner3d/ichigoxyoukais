@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
 
     private void fixBugPause(){
         if(!isPaused){
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
         }
     }
 
@@ -261,7 +261,6 @@ public class GameController : MonoBehaviour
                 script.StopAllCoroutines();
             }
         }
-        
         Debug.Log("Todas as corrotinas foram canceladas.");
     }
 
