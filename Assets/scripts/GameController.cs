@@ -22,7 +22,8 @@ public class GameController : MonoBehaviour
     public Button resumeButton;
     public Button menuPrincipalButton;
     [Header ("UI")]
-    public BlackPanelUi blackPanelUi;
+    public BlackPanelUi blackPanelUi; //gameover
+    public GameObject blackPanelStartUi; //inicio
     public GameObject panelPause;
     public GameObject resumeGameButton;
     [Header ("Points")]
@@ -48,6 +49,7 @@ public class GameController : MonoBehaviour
         StartCoroutine(RecoveryTime());
         StartCoroutine(ichigoCreator());
         playTheme1();
+        blackPanelStartUi.SetActive(true);
     }
 
     void Update(){
