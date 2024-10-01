@@ -1,9 +1,11 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class Enemie_Skeleton : Enemie
 {   
     
     [Header ("General")]
+    public int type = 1;
     public float velocidade = 3f;
     public float distanciaPerseguicao = 10f;
     public float distanciaAtaque = 0.4f;
@@ -108,7 +110,8 @@ public class Enemie_Skeleton : Enemie
                 }
                 anim.SetBool("parado", false);
                 anim.SetBool("andando", false);
-                
+                spriteRenderer.material = whiteMaterial;
+                spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
                 DamageText();
                 HorizontalCutFx();
                 SubtractLife(int.Parse(swordDamage));

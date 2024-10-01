@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class player : MonoBehaviour
 {   
@@ -52,9 +53,11 @@ public class player : MonoBehaviour
     public Material originalMaterial;
     public Material swordGlowMaterial;
     public Material airSwordGlowMaterial;
+    public Material whiteMaterial;
     [Header ("Dash")]
     public bool dashing;
     [Header ("Damage")]
+    public int damage;
     public GameObject impactPoint;
     public GameObject enemieCutFx;
     public GameObject bloodFx;
@@ -533,8 +536,19 @@ public class player : MonoBehaviour
     //================== COLISIONS =====================
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.gameObject.CompareTag("enemie_sword") && !dashing && !sofrendoDano && vivo){
+            Enemie_Skeleton_White enemieScript = other.gameObject.GetComponentInParent<Enemie_Skeleton_White>();
+            if (enemieScript != null)
+            {
+                if(enemieScript.type == 1){
+                    damage = 10;
+                } else if(enemieScript.type == 2){
+                    damage = 15;
+                } else {
+                    damage = 20;
+                }
+            }
             //damage
-            lifeAmount-=10;
+            lifeAmount-=damage;
             //pause
             if(lifeAmount>0){
                 StartCoroutine( MicroPause(0.2f));
@@ -577,8 +591,8 @@ public class player : MonoBehaviour
             //FX
             EnemieCutFx();
             BloodFx();
-            DamageText("10");
-            
+            DamageText(damage.ToString());
+            spriteRenderer.material = whiteMaterial;
 
             if(other.transform.parent.localScale.x > 0){
                 if(touchingGround){
@@ -614,6 +628,7 @@ public class player : MonoBehaviour
         
         // Restaurar o tempo ao normal
         Time.timeScale = 1f;
+        spriteRenderer.material = originalMaterial;
     }
 
     //================== SOUNDS =====================

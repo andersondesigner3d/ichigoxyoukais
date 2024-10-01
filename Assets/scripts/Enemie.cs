@@ -13,7 +13,7 @@ public class Enemie : MonoBehaviour {
     public GameObject impactPoint;
     [Header ("Others")]
     public int lifeAmount;
-    public string swordDamage;
+    public string swordDamage;//dano que o ichigo causa nele
     public GameObject ItemDroped;
     [Header ("Audio")]
     public AudioClip soundAttack;
@@ -21,7 +21,10 @@ public class Enemie : MonoBehaviour {
     [Header ("FX")]
     public GameObject horizontalCutFx;
     public GameObject damageText;
-    
+    [Header ("Material")]
+    public Material originalMaterial;
+    public Material whiteMaterial;
+    public Color originalColor; 
     
     void Start()
     {
@@ -33,6 +36,8 @@ public class Enemie : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         impactPoint = transform.Find("impactPoint").gameObject;
         StartingGame();
+        originalMaterial = spriteRenderer.material;
+        originalColor = spriteRenderer.color;
     }
 
     protected virtual void StartingGame(){
@@ -76,6 +81,8 @@ public class Enemie : MonoBehaviour {
             
             // Restaurar o tempo ao normal
             Time.timeScale = 1f;
+            spriteRenderer.material = originalMaterial;
+            spriteRenderer.material.color = originalColor;
         }
     }
 }

@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   vivo: 1
-  lifeAmount: 1
+  lifeAmount: 100
   mpAmount: 100
   anim: {fileID: 0}
   ichigoTransform: {fileID: 0}
@@ -282,6 +282,7 @@ MonoBehaviour:
   originalMaterial: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   swordGlowMaterial: {fileID: 2100000, guid: 0e62789320db13544b9e358de3c8daa8, type: 2}
   airSwordGlowMaterial: {fileID: 2100000, guid: 6f279ab43aee5214f896d45d07fbea5a, type: 2}
+  whiteMaterial: {fileID: 2100000, guid: 6a4e117689217b14394723c5ec7b3a9d, type: 2}
   dashing: 0
   impactPoint: {fileID: 0}
   enemieCutFx: {fileID: 4611182644033057079, guid: 920ecb33ae7383040b9f1a0e298c952a, type: 3}
