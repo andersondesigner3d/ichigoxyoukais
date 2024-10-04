@@ -41,6 +41,7 @@ public class Enemie_Skeleton : Enemie
         }
         Ataca();
         FindInchigo();
+        SelfDestroy();
     }
 
     public void Move(){
@@ -160,6 +161,12 @@ public class Enemie_Skeleton : Enemie
     public void DamageText(){
         GameObject textFx = Instantiate(damageText, new Vector3(impactPoint.transform.position.x, impactPoint.transform.position.y, 0), Quaternion.identity);
         textFx.GetComponent<DamageText>().value = swordDamage;
+    }
+
+    public void SelfDestroy(){
+        if((distancia > 5) && !vivo){
+            Destroy(this.gameObject);
+        }
     }
 
 }

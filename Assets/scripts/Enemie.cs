@@ -11,6 +11,7 @@ public class Enemie : MonoBehaviour {
     public Rigidbody2D rb;
     public player ichigo;
     public GameObject impactPoint;
+    public GameController gameController;
     [Header ("Others")]
     public int lifeAmount;
     public string swordDamage;//dano que o ichigo causa nele
@@ -28,6 +29,7 @@ public class Enemie : MonoBehaviour {
     
     void Start()
     {
+        gameController = FindObjectOfType<GameController>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         myTransform = GetComponent<Transform>();

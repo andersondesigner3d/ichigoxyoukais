@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public AudioSource audioSourceTheme;
     public AudioClip[] audioClips;
     public float timeToCreateIchigo;
+    public float enemieDistanceRespawn;
     [Header ("Buttons")]
     public Button restarGameButton;
     public Button exitGameButton;
