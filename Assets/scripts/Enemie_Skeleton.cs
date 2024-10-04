@@ -111,7 +111,7 @@ public class Enemie_Skeleton : Enemie
                 }
                 anim.SetBool("parado", false);
                 anim.SetBool("andando", false);
-                WhiteMaterial();
+                StartCoroutine(TimerWhiteMaterial());
                 spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
                 DamageText();
                 HorizontalCutFx();
@@ -134,6 +134,7 @@ public class Enemie_Skeleton : Enemie
 
     public void OriginalMaterial(){
         spriteRenderer.material = originalMaterial;
+        spriteRenderer.material.color = originalColor;
     }
 
     public void endDamage(){

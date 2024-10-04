@@ -81,8 +81,8 @@ public class Enemie : MonoBehaviour {
             
             // Restaurar o tempo ao normal
             Time.timeScale = 1f;
-            spriteRenderer.material = originalMaterial;
-            spriteRenderer.material.color = originalColor;
+            // spriteRenderer.material = originalMaterial;
+            // spriteRenderer.material.color = originalColor;
         }
     }
 }

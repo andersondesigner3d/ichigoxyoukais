@@ -14,11 +14,15 @@ public class cameraEffect : MonoBehaviour
     private float shakeMagnitude = 0.1f;
     private float shakeFrequency = 25f; // Novo: controla a velocidade do tremor
 
+    // Novo: Variável para ajustar o deslocamento vertical da câmera
+    public float yOffset = 0f;
+
     void Update()
     {
         if(player != null)
         {
-            Vector3 targetPosition = new Vector3(player.position.x, player.position.y, transform.position.z);
+            // Adicione yOffset à posição Y do jogador
+            Vector3 targetPosition = new Vector3(player.position.x, player.position.y + yOffset, transform.position.z);
 
             if(isShaking)
             {
