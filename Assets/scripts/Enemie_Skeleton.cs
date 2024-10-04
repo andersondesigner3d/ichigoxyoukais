@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -110,7 +111,7 @@ public class Enemie_Skeleton : Enemie
                 }
                 anim.SetBool("parado", false);
                 anim.SetBool("andando", false);
-                spriteRenderer.material = whiteMaterial;
+                WhiteMaterial();
                 spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
                 DamageText();
                 HorizontalCutFx();
@@ -119,6 +120,20 @@ public class Enemie_Skeleton : Enemie
                 apanhando = true;
             }
         }
+    }
+
+    IEnumerator TimerWhiteMaterial(){
+        WhiteMaterial();
+        yield return new WaitForSecondsRealtime(0.3f);
+        OriginalMaterial();
+    }
+
+    public void WhiteMaterial(){
+        spriteRenderer.material = whiteMaterial;
+    }
+
+    public void OriginalMaterial(){
+        spriteRenderer.material = originalMaterial;
     }
 
     public void endDamage(){
@@ -134,6 +149,7 @@ public class Enemie_Skeleton : Enemie
         anim.SetBool("dano",false);
         anim.SetBool("parado", false);
         anim.SetBool("andando", false);
+        OriginalMaterial();
     }
 
     public void HorizontalCutFx(){

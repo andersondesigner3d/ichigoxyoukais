@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -578,7 +579,6 @@ public class player : MonoBehaviour
             verticalMoviment = 0;
             rb.velocity = new Vector2(0, 0);
             //animations
-            spriteRenderer.material = originalMaterial;
             anim.ResetTrigger("dash");
             anim.ResetTrigger("ataque1");
             anim.ResetTrigger("ataque_ar");
@@ -592,7 +592,7 @@ public class player : MonoBehaviour
             EnemieCutFx();
             BloodFx();
             DamageText(damage.ToString());
-            spriteRenderer.material = whiteMaterial;
+            StartCoroutine(TimerWhiteMaterial());
 
             if(other.transform.parent.localScale.x > 0){
                 if(touchingGround){
@@ -628,6 +628,20 @@ public class player : MonoBehaviour
         
         // Restaurar o tempo ao normal
         Time.timeScale = 1f;
+        OriginalMaterial();
+    }
+
+    IEnumerator TimerWhiteMaterial(){
+        WhiteMaterial();
+        yield return new WaitForSecondsRealtime(0.3f);
+        OriginalMaterial();
+    }
+        
+    public void WhiteMaterial(){
+        spriteRenderer.material = whiteMaterial;
+    }
+
+    public void OriginalMaterial(){
         spriteRenderer.material = originalMaterial;
     }
 
