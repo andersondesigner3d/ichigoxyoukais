@@ -94,14 +94,15 @@ public class player : MonoBehaviour
     void Update()
     {        
         //print("horizontalMoviment: "+horizontalMoviment);
-        //print("rb.velocity.y = "+rb.velocity.y);
-        //print("verticalMoviment = "+verticalMoviment);
-        print(Time.timeScale);
+        print("rb.velocity.y = "+rb.velocity.y);
+        //print(rb.velocity.y);
+        //print(Time.timeScale);
 
         if(gameController.isPaused)
             return;
 
         touchingGround = IsGrounded();
+        
         touchingWall = canMove();
 
         //flip
@@ -276,7 +277,7 @@ public class player : MonoBehaviour
 
         horizontalMoviment = Mathf.RoundToInt(context.ReadValue<Vector2>().x);
         verticalMoviment = Mathf.RoundToInt(context.ReadValue<Vector2>().y);
-
+        
         if(context.canceled){
             StartCoroutine(delayControl());
         }
@@ -322,8 +323,13 @@ public class player : MonoBehaviour
     }
 
     private bool IsGrounded(){
+        
         Vector2 boxSize1 = new Vector2(0.15f, 0.02f);
-        return Physics2D.OverlapBox(groundCheck.position, boxSize1, 0f, groundLayer);
+        if(rb.velocity.y <= 0){
+            return Physics2D.OverlapBox(groundCheck.position, boxSize1, 0f, groundLayer);
+        } else {
+            return false;
+        }        
     }
 
     private bool canMove(){
